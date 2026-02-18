@@ -1,4 +1,4 @@
-# 🛒 Grocery Delivery Web Application
+# Grocery Delivery Web Application
 
 ## Overview
 A full-stack grocery delivery platform where customers can browse and order groceries online, and admins can manage products and orders through a dedicated dashboard.
