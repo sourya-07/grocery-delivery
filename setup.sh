@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# ============================================================
 #  Grocery Delivery — Developer Utility Script
 #  Usage: ./setup.sh [command]
-# ============================================================
 
 set -e
 
 SERVER_DIR="$(dirname "$0")/server"
 
-# ---------- colour helpers ----------
+# colour helpers
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -20,14 +18,14 @@ success() { echo -e "${GREEN}[OK]${NC}    $*"; }
 warn()    { echo -e "${YELLOW}[WARN]${NC}  $*"; }
 error()   { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
 
-# ---------- helpers ----------
+# helpers
 check_node() {
   command -v node &>/dev/null || error "Node.js is not installed. Visit https://nodejs.org"
   command -v npm  &>/dev/null || error "npm is not installed."
   info "Node $(node -v) / npm $(npm -v)"
 }
 
-# ---------- commands ----------
+# commands
 cmd_install() {
   info "Installing server dependencies..."
   check_node
@@ -95,7 +93,7 @@ usage() {
   echo ""
 }
 
-# ---------- entry ----------
+# entry
 case "${1:-}" in
   install)   cmd_install ;;
   dev)       cmd_dev ;;
