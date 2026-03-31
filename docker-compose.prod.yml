@@ -1,0 +1,40 @@
+#  Production Stack 
+# Uses pre-built images from Docker Hub (pushed by CD pipeline)
+# Usage: docker compose -f docker-compose.prod.yml up -d
+# 
+
+services:
+  # ── Backend 
+  server:
+    image: ${DOCKERHUB_USERNAME}/grocery-delivery-server:${IMAGE_TAG:-latest}
+    container_name: grocery_server_prod
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      MONGODB_URI: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET}
+    volumes:
+      - uploads_data:/app/uploads
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  #  Frontend 
+  client:
+    image: ${DOCKERHUB_USERNAME}/grocery-delivery-client:${IMAGE_TAG:-latest}
+    container_name: grocery_client_prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      server:
+        condition: service_healthy
+
+volumes:
+  uploads_data:
