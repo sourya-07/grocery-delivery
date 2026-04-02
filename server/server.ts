@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// ── Middleware ────────────────────────────────────────────────────────────────
+//  Middleware 
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,10 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ── Database ──────────────────────────────────────────────────────────────────
+//  Database 
 connectDB();
 
-// ── API Routes ────────────────────────────────────────────────────────────────
+//  API Routes 
 app.use("/api/user",    userRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/order",   orderRoutes);
@@ -39,11 +39,13 @@ app.get("/api/health", (_req, res) => {
     res.json({ success: true, message: "Grocery Delivery API is running" });
 });
 
-// ── Error Handling ────────────────────────────────────────────────────────────
+//  Error Handling 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
-if (process.env.NODE_ENV !== "production") {
+// In Vercel serverless, VERCEL=1 is injected automatically — skip listen().
+// In Docker / local dev, VERCEL is never set, so always start the HTTP server.
+if (!process.env.VERCEL) {
     app.listen(PORT, () => {
         console.log(`✅ Server running on http://localhost:${PORT}`);
     });
