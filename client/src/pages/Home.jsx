@@ -29,15 +29,15 @@ const Home = () => {
 
       <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2rem", marginBottom: "4rem" }}>
         <div className="card" style={{ padding: "2rem" }}>
-          <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>🥬 Guaranteed Freshness</h3>
+          <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Guaranteed Freshness</h3>
           <p style={{ color: "var(--text-muted)" }}>We source daily from local farms to ensure maximum freshness.</p>
         </div>
         <div className="card" style={{ padding: "2rem" }}>
-          <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>⚡ Fast Delivery</h3>
+          <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Fast Delivery</h3>
           <p style={{ color: "var(--text-muted)" }}>Our delivery agents work around the clock to bring your order fast.</p>
         </div>
         <div className="card" style={{ padding: "2rem" }}>
-          <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>🏷️ Affordable Prices</h3>
+          <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Affordable Prices</h3>
           <p style={{ color: "var(--text-muted)" }}>Competitive pricing and daily offers to save you money.</p>
         </div>
       </section>

@@ -30,14 +30,14 @@ A full-stack grocery delivery platform where customers can browse and order groc
 - Trust badges (Fast Delivery, Freshness, Affordable Prices)
 - Footer with quick links
 
-### 👤 Customer Dashboard
+### Customer Dashboard
 - **Products Page** — Browse all products, filter by category, search
 - **Product Detail** — View images, description, price, add to cart
 - **Cart** — View items, update quantity, remove items, see total
 - **Checkout** — Add/select delivery address, place order
 - **My Orders** — Track order status (Processing → Shipped → Delivered)
 
-### 🛠️ Admin Dashboard
+### Admin Dashboard
 - **Add Product** — Name, category, price, offer price, images, description, stock status
 - **Product List** — View all products, edit, delete, toggle stock
 - **Orders Management** — View all customer orders, update order status

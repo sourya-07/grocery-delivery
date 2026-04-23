@@ -47,7 +47,7 @@ app.use(errorMiddleware);
 // In Docker / local dev, VERCEL is never set, so always start the HTTP server.
 if (!process.env.VERCEL) {
     app.listen(PORT, () => {
-        console.log(`✅ Server running on http://localhost:${PORT}`);
+        console.log(`Server running on http://localhost:${PORT}`);
     });
 }
 

@@ -8,11 +8,11 @@ This diagram illustrates the interactions between the two primary actors (**Cust
 ```mermaid
 flowchart LR
     subgraph Actors
-        Customer(("👤 Customer"))
-        Admin(("🛠️ Admin"))
+        Customer(("Customer"))
+        Admin(("Admin"))
     end
 
-    subgraph System["🛒 Grocery Delivery System"]
+    subgraph System["Grocery Delivery System"]
         direction TB
 
         subgraph Auth["Authentication"]
