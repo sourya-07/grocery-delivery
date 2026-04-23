@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
-import api from '../utils/api';
+import api, { BACKEND_URL } from '../utils/api';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -115,7 +115,7 @@ const Products = () => {
                 <div style={{ height: "200px", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {product.image && product.image[0] ? (
                     <img 
-                      src={`http://localhost:4000${product.image[0]}`} 
+                      src={`${BACKEND_URL}${product.image[0]}`} 
                       alt={product.name} 
                       style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
                     />

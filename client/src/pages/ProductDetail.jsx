@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../utils/api';
+import api, { BACKEND_URL } from '../utils/api';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -47,7 +47,7 @@ const ProductDetail = () => {
       <div className="card" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", padding: "2rem", alignItems: "center" }}>
         <div style={{ backgroundColor: "white", padding: "2rem", borderRadius: "0.5rem", display: "flex", justifyContent: "center" }}>
           {product.image && product.image[0] ? (
-            <img src={`http://localhost:4000${product.image[0]}`} alt={product.name} style={{ maxWidth: "100%", maxHeight: "400px", objectFit: "contain" }} />
+            <img src={`${BACKEND_URL}${product.image[0]}`} alt={product.name} style={{ maxWidth: "100%", maxHeight: "400px", objectFit: "contain" }} />
           ) : (
             <div style={{ color: "#ccc", height: "300px", display: "flex", alignItems: "center" }}>No Image Available</div>
           )}

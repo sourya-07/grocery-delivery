@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
 import api from '../utils/api';
-
+import { BACKEND_URL } from '../utils/api';
 const Cart = () => {
   const { cartItems, updateCart, clearCart, loading: cartLoading } = useContext(CartContext);
   const [products, setProducts] = useState([]);
@@ -63,7 +63,7 @@ const Cart = () => {
               <div key={product._id} style={{ display: "flex", alignItems: "center", gap: "1rem", paddingBottom: "1rem", marginBottom: "1rem", borderBottom: "1px solid var(--border)" }}>
                 <div style={{ width: "80px", height: "80px", backgroundColor: "white", borderRadius: "0.5rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {product.image && product.image[0] ? (
-                    <img src={`http://localhost:4000${product.image[0]}`} alt={product.name} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+                    <img src={`${BACKEND_URL}${product.image[0]}`} alt={product.name} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
                   ) : (
                     <span style={{ color: "#ccc", fontSize: "0.75rem" }}>No Img</span>
                   )}

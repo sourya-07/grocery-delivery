@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../utils/api';
+import api, { BACKEND_URL } from '../../utils/api';
 import { Pencil, Trash2 } from 'lucide-react';
 
 const AdminProducts = () => {
@@ -162,7 +162,7 @@ const AdminProducts = () => {
               <tr key={p._id} style={{ borderBottom: "1px solid var(--border)" }}>
                 <td style={{ padding: "1rem" }}>
                   <div style={{ width: "50px", height: "50px", backgroundColor: "white", borderRadius: "0.375rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {p.image && p.image[0] && <img src={`http://localhost:4000${p.image[0]}`} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} alt="" />}
+                    {p.image && p.image[0] && <img src={`${BACKEND_URL}${p.image[0]}`} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} alt="" />}
                   </div>
                 </td>
                 <td style={{ padding: "1rem", fontWeight: "bold" }}>{p.name}</td>
