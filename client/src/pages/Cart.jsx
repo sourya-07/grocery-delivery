@@ -70,7 +70,7 @@ const Cart = () => {
                 </div>
                 <div style={{ flex: 1 }}>
                   <Link to={`/products/${product._id}`}><h3 style={{ fontSize: "1.1rem" }}>{product.name}</h3></Link>
-                  <div style={{ color: "var(--primary)", fontWeight: "bold", marginTop: "0.25rem" }}>${price.toFixed(2)}</div>
+                  <div style={{ color: "var(--primary)", fontWeight: "bold", marginTop: "0.25rem" }}>₹{price.toFixed(2)}</div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                   <button className="btn btn-outline" style={{ padding: "0.25rem 0.5rem" }} onClick={() => updateCart(product._id, qty - 1)}>-</button>
@@ -93,7 +93,7 @@ const Cart = () => {
           <h2 style={{ fontSize: "1.25rem", marginBottom: "1.5rem", borderBottom: "1px solid var(--border)", paddingBottom: "1rem" }}>Order Summary</h2>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
             <span style={{ color: "var(--text-muted)" }}>Subtotal</span>
-            <span>${totalAmount.toFixed(2)}</span>
+            <span>₹{totalAmount.toFixed(2)}</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
             <span style={{ color: "var(--text-muted)" }}>Delivery Fee</span>
@@ -101,7 +101,7 @@ const Cart = () => {
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", margin: "1.5rem 0", borderTop: "1px solid var(--border)", paddingTop: "1rem", fontSize: "1.25rem", fontWeight: "bold" }}>
             <span>Total</span>
-            <span style={{ color: "var(--primary)" }}>${totalAmount.toFixed(2)}</span>
+            <span style={{ color: "var(--primary)" }}>₹{totalAmount.toFixed(2)}</span>
           </div>
           <button className="btn btn-primary" style={{ width: "100%", padding: "1rem" }} onClick={() => navigate('/checkout')}>
             Proceed to Checkout

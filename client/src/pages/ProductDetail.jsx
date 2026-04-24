@@ -62,11 +62,11 @@ const ProductDetail = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
             {product.offerPrice > 0 ? (
               <>
-                <span style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--primary)" }}>${product.offerPrice.toFixed(2)}</span>
-                <span style={{ textDecoration: "line-through", color: "var(--text-muted)", fontSize: "1.25rem" }}>${product.price.toFixed(2)}</span>
+                <span style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--primary)" }}>₹{product.offerPrice.toFixed(2)}</span>
+                <span style={{ textDecoration: "line-through", color: "var(--text-muted)", fontSize: "1.25rem" }}>₹{product.price.toFixed(2)}</span>
               </>
             ) : (
-              <span style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--primary)" }}>${product.price.toFixed(2)}</span>
+              <span style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--primary)" }}>₹{product.price.toFixed(2)}</span>
             )}
           </div>
 

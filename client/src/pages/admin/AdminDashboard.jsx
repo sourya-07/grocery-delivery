@@ -47,11 +47,11 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-4" style={{ marginBottom: "2rem" }}>
         <div className="card" style={{ padding: "1.5rem", display: "flex", alignItems: "center", gap: "1rem" }}>
           <div style={{ padding: "1rem", backgroundColor: "rgba(16, 185, 129, 0.1)", color: "var(--primary)", borderRadius: "0.5rem" }}>
-            <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>$</span>
+            <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>₹</span>
           </div>
           <div>
             <div style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>Total Revenue</div>
-            <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>${stats.revenue.toFixed(2)}</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>₹{stats.revenue.toFixed(2)}</div>
           </div>
         </div>
         

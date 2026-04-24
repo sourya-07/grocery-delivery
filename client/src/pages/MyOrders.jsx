@@ -59,7 +59,7 @@ const MyOrders = () => {
                   {order.status}
                 </span>
                 <div style={{ fontWeight: "bold", fontSize: "1.1rem", marginTop: "0.25rem" }}>
-                  ${order.amount.toFixed(2)}
+                  ₹{order.amount.toFixed(2)}
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@ const MyOrders = () => {
               {order.items.map((item, i) => (
                 <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                   <span>{item.quantity} × {item.name}</span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <span>₹{(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>

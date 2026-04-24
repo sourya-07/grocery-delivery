@@ -80,7 +80,7 @@ const Products = () => {
             onChange={handleCategoryChange}
           >
             <option value="all">All Categories</option>
-            {["Vegetables", "Fruits", "Dairy", "Drinks", "Instant", "Bakery", "Grains"].map(cat => (
+            {["Vegetables", "Fruits", "Dairy", "Drinks", "Bakery", "Grains"].map(cat => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
@@ -131,11 +131,11 @@ const Products = () => {
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", marginBottom: "1rem" }}>
                   {product.offerPrice > 0 ? (
                     <>
-                      <span style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--primary)" }}>${product.offerPrice.toFixed(2)}</span>
-                      <span style={{ textDecoration: "line-through", color: "var(--text-muted)", fontSize: "0.9rem" }}>${product.price.toFixed(2)}</span>
+                      <span style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--primary)" }}>₹{product.offerPrice.toFixed(2)}</span>
+                      <span style={{ textDecoration: "line-through", color: "var(--text-muted)", fontSize: "0.9rem" }}>₹{product.price.toFixed(2)}</span>
                     </>
                   ) : (
-                    <span style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--primary)" }}>${product.price.toFixed(2)}</span>
+                    <span style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--primary)" }}>₹{product.price.toFixed(2)}</span>
                   )}
                 </div>
                 {!product.inStock ? (

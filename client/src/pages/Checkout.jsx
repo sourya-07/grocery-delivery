@@ -200,7 +200,7 @@ const Checkout = () => {
       <div className="card" style={{ padding: "2rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", borderBottom: "1px solid var(--border)", paddingBottom: "1rem" }}>
           <h2 style={{ fontSize: "1.25rem", margin: 0 }}>Order Total</h2>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", color: "var(--primary)" }}>${totalAmount.toFixed(2)}</span>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", color: "var(--primary)" }}>₹{totalAmount.toFixed(2)}</span>
         </div>
         <button className="btn btn-primary" style={{ width: "100%", padding: "1rem", fontSize: "1.1rem" }} onClick={handlePlaceOrder} disabled={placingOrder || showForm || !selectedAddressId}>
           {placingOrder ? "Placing Order..." : "Confirm & Place Order"}

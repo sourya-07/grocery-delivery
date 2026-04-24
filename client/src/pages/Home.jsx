@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const categories = ["Vegetables", "Fruits", "Dairy", "Drinks", "Instant", "Bakery", "Grains"];
+  const categories = ["Vegetables", "Fruits", "Dairy", "Drinks", "Bakery", "Grains"];
 
   return (
     <div className="container" style={{ textAlign: "center" }}>

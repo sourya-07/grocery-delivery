@@ -110,7 +110,7 @@ const AdminProducts = () => {
               <div className="form-group">
                 <label>Category</label>
                 <select name="category" className="form-control" value={formData.category} onChange={handleInputChange}>
-                  {["Vegetables", "Fruits", "Dairy", "Drinks", "Instant", "Bakery", "Grains"].map(cat => (
+                  {["Vegetables", "Fruits", "Dairy", "Drinks", "Bakery", "Grains"].map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
@@ -167,7 +167,7 @@ const AdminProducts = () => {
                 </td>
                 <td style={{ padding: "1rem", fontWeight: "bold" }}>{p.name}</td>
                 <td style={{ padding: "1rem" }}>{p.category}</td>
-                <td style={{ padding: "1rem" }}>${p.price.toFixed(2)}</td>
+                <td style={{ padding: "1rem" }}>₹{p.price.toFixed(2)}</td>
                 <td style={{ padding: "1rem", textAlign: "center" }}>
                   {p.inStock ? <span style={{ color: "var(--primary)" }}>Yes</span> : <span style={{ color: "var(--danger)" }}>No</span>}
                 </td>

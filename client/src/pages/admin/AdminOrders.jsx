@@ -51,7 +51,7 @@ const AdminOrders = () => {
               </div>
               <div style={{ textAlign: "right" }}>
                 <div style={{ fontWeight: "bold", fontSize: "1.25rem", marginBottom: "0.5rem" }}>
-                  ${order.amount.toFixed(2)}
+                  ₹{order.amount.toFixed(2)}
                 </div>
                 <select 
                   className="form-control" 
@@ -72,7 +72,7 @@ const AdminOrders = () => {
                 {order.items.map((item, i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.25rem", fontSize: "0.875rem" }}>
                     <span>{item.quantity} × {item.name}</span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>₹{(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
