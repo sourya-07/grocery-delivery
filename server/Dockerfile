@@ -28,10 +28,10 @@ COPY --from=builder /app/dist ./dist
 # Create uploads directory (bind-mount at runtime)
 RUN mkdir -p uploads
 
-EXPOSE 4000
+EXPOSE 3100
 
 # Health check — matches the /api/health endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-  CMD wget -qO- http://localhost:4000/api/health || exit 1
+  CMD wget -qO- http://localhost:3100/api/health || exit 1
 
 CMD ["node", "dist/server.js"]
