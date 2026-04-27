@@ -34,9 +34,20 @@ app.use("/api/order",   orderRoutes);
 app.use("/api/cart",    cartRoutes);
 app.use("/api/address", addressRoutes);
 
+// Serve static files from the React app dist folder
+const clientDistPath = path.join(__dirname, "../../client/dist");
+app.use(express.static(clientDistPath));
+
 // Health check
 app.get("/api/health", (_req, res) => {
     res.json({ success: true, message: "Grocery Delivery API is running" });
+});
+
+// For any request that doesn't match an API route, serve index.html
+app.get("*", (req, res) => {
+    if (!req.path.startsWith("/api")) {
+        res.sendFile(path.join(clientDistPath, "index.html"));
+    }
 });
 
 //  Error Handling 
