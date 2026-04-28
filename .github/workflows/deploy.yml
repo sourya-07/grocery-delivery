@@ -1,0 +1,154 @@
+
+# ── CI/CD Pipeline: GitHub Actions → ECR → ECS ────────────────────────────
+# Triggers on every push to main
+# Sections covered:
+#   3.1 Dockerfile  (./server/Dockerfile  ./client/Dockerfile)
+#   3.2 Workflow File  (this file)
+#   3.3 Build & Push  (build-and-push job)
+#   3.4 Full Automation  (deploy job auto-updates ECS service)
+# ─────────────────────────────────────────────────────────────────────────
+
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches: [main]
+
+env:
+  AWS_REGION: us-east-1                        # change if your lab uses a different region
+  SERVER_ECR_REPOSITORY: grocery-delivery-server
+  CLIENT_ECR_REPOSITORY: grocery-delivery-client
+  ECS_CLUSTER: grocery-delivery-cluster
+  SERVER_ECS_SERVICE: grocery-server-service
+  CLIENT_ECS_SERVICE: grocery-client-service
+  SERVER_TASK_DEFINITION: grocery-server-task
+  CLIENT_TASK_DEFINITION: grocery-client-task
+  SERVER_CONTAINER_NAME: grocery-server
+  CLIENT_CONTAINER_NAME: grocery-client
+
+jobs:
+  # ── Section 3.3 & 3.4 ─────────────────────────────────────
+  build-and-push:
+    name: Build & Push to ECR
+    runs-on: ubuntu-latest
+
+    outputs:
+      server-image: ${{ steps.server-build.outputs.image }}
+      client-image: ${{ steps.client-build.outputs.image }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── AWS credentials from GitHub Secrets ──────────────
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token:     ${{ secrets.AWS_SESSION_TOKEN }}   # required for Academy labs
+          aws-region:            ${{ env.AWS_REGION }}
+
+      # ── Login to ECR ─────────────────────────────────────
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # ── Server image ──────────────────────────────────────
+      # 1.2 Image Pushed  |  1.3 Tagging Strategy: latest + git SHA
+      - name: Build, tag & push SERVER image
+        id: server-build
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$SERVER_ECR_REPOSITORY:$IMAGE_TAG \
+                       -t $ECR_REGISTRY/$SERVER_ECR_REPOSITORY:latest \
+                       ./server
+          docker push $ECR_REGISTRY/$SERVER_ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$SERVER_ECR_REPOSITORY:latest
+          echo "image=$ECR_REGISTRY/$SERVER_ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      # ── Client image ──────────────────────────────────────
+      - name: Build, tag & push CLIENT image
+        id: client-build
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$CLIENT_ECR_REPOSITORY:$IMAGE_TAG \
+                       -t $ECR_REGISTRY/$CLIENT_ECR_REPOSITORY:latest \
+                       ./client
+          docker push $ECR_REGISTRY/$CLIENT_ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$CLIENT_ECR_REPOSITORY:latest
+          echo "image=$ECR_REGISTRY/$CLIENT_ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  # ── Section 2.3 Service Running ────────────────────────────
+  deploy:
+    name: Deploy to ECS
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token:     ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      # ── Download current server task definition ───────────
+      - name: Download SERVER task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition $SERVER_TASK_DEFINITION \
+            --query taskDefinition \
+            > server-task-def.json
+
+      # ── Inject new server image into task definition ──────
+      - name: Update SERVER container image in task definition
+        id: server-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: server-task-def.json
+          container-name:  ${{ env.SERVER_CONTAINER_NAME }}
+          image:           ${{ needs.build-and-push.outputs.server-image }}
+
+      # ── Deploy server to ECS ──────────────────────────────
+      - name: Deploy SERVER to ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.server-task-def.outputs.task-definition }}
+          service:         ${{ env.SERVER_ECS_SERVICE }}
+          cluster:         ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+      # ── Download current client task definition ───────────
+      - name: Download CLIENT task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition $CLIENT_TASK_DEFINITION \
+            --query taskDefinition \
+            > client-task-def.json
+
+      # ── Inject new client image into task definition ──────
+      - name: Update CLIENT container image in task definition
+        id: client-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: client-task-def.json
+          container-name:  ${{ env.CLIENT_CONTAINER_NAME }}
+          image:           ${{ needs.build-and-push.outputs.client-image }}
+
+      # ── Deploy client to ECS ──────────────────────────────
+      - name: Deploy CLIENT to ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.client-task-def.outputs.task-definition }}
+          service:         ${{ env.CLIENT_ECS_SERVICE }}
+          cluster:         ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
